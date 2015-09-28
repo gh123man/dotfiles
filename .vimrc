@@ -21,6 +21,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'gosukiwi/vim-atom-dark'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
+Plugin 'StanAngeloff/php.vim'
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Bundle 'lrvick/Conque-Shell'
 
@@ -46,10 +47,10 @@ endif
 "tab navigation"
 :nnoremap <C-S-tab> :bprevious<CR>:call NTLookup()<CR>
 :nnoremap <C-tab>   :bnext<CR>:call NTLookup()<CR>
-:nnoremap <C-t>     :enew<cr>:call NTLookup()<CR>
+:nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
 :inoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>i
 :inoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>i
-:inoremap <C-t>     <Esc>:enew<cr>:call NTLookup()<CR>i
+:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
 :nnoremap <C-w> :Bclose<CR>:call NTLookup()<cr>
 :inoremap <C-w> :Bclose<CR>:call NTLookup()<cr>i
 
@@ -179,4 +180,6 @@ endfunction
 "
 autocmd BufReadPre,FileReadPre * call NTLookup()
 let g:airline_theme='tomorrow'
+set encoding=utf-8
+set guioptions-=m 
 
