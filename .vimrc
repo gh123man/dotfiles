@@ -40,6 +40,9 @@ colorscheme atom-dark
 :set guioptions-=T  "remove toolbar"
 if has("gui_running")
     set lines=48 columns=115
+    let g:airline_theme='tomorrow'
+    let g:airline_powerline_fonts = 1
+    set guifont=Liberation\ Mono\ for\ Powerline\ 10
 endif
 :set ignorecase
 
@@ -154,7 +157,7 @@ let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
+
 
 noremap <Tab> <C-w>w
 noremap <C-h> <C-w>h
@@ -162,7 +165,6 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-set guifont=Liberation\ Mono\ for\ Powerline\ 10
 
 " returns true iff is NERDTree open/active
 function! IsNTOpen()        
@@ -179,7 +181,10 @@ endfunction
 "autocmd BufEnter * call NTLookup()
 "
 autocmd BufReadPre,FileReadPre * call NTLookup()
-let g:airline_theme='tomorrow'
+
 set encoding=utf-8
 set guioptions-=m 
 
+
+:vmap <Tab> >
+:vmap <S-Tab> <
