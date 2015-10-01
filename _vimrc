@@ -39,7 +39,7 @@ colorscheme atom-dark
 :set guioptions-=T  "remove toolbar"
 set guioptions-=m 
 if has("gui_running")
-    set lines=48 columns=115
+    set lines=48 columns=150
 endif
 :set ignorecase
 
@@ -154,7 +154,7 @@ let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
+"let g:airline_powerline_fonts = 1
 
 noremap <Tab> <C-w>w
 noremap <C-h> <C-w>h
@@ -181,4 +181,8 @@ endfunction
 autocmd BufReadPre,FileReadPre * call NTLookup()
 let g:airline_theme='tomorrow'
 set encoding=utf-8
-set guifont=Droid\ Sans\ Mono\ for\ Powerline:h10
+set guifont=Consolas:h10
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
