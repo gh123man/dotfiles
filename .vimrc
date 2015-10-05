@@ -23,7 +23,6 @@ Plugin 'gosukiwi/vim-atom-dark'
 Plugin 'bling/vim-airline'
 Plugin 'StanAngeloff/php.vim'
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-"Bundle 'lrvick/Conque-Shell'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -126,11 +125,10 @@ let g:ycm_add_preview_to_completeopt = 0
 ":map     <C-W>       :confirm bdelete<CR>
 
 
-let g:solarized_contrast = "high"
 set cursorline
 set laststatus=2
 
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle %<CR>
 
 function! TagInNewTab()
     let word = expand("<cword>")
@@ -159,7 +157,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 
-noremap <Tab> <C-w>w
+"noremap <Tab> <C-w>w
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
@@ -188,3 +186,4 @@ set guioptions-=m
 
 :vmap <Tab> >
 :vmap <S-Tab> <
+:map <S-Tab> <<
