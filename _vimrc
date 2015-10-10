@@ -91,7 +91,7 @@ let g:ctrlp_working_path_mode = '0'
 
 "let g:ycm_global_ycm_extra_conf ='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
