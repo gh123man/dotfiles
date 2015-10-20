@@ -91,7 +91,7 @@ let g:ctrlp_working_path_mode = '0'
 
 "let g:ycm_global_ycm_extra_conf ='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
 
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
@@ -186,3 +186,8 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+
+
+:vmap <Tab> >
+:vmap <S-Tab> <
+:map <S-Tab> < 
