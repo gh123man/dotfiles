@@ -15,12 +15,14 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'kien/ctrlp.vim'
 "Plugin 'Valloric/YouCompleteMe'
+"Bundle 'scrooloose/syntastic'
 "Plugin 'szw/vim-tags'
 "Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 Plugin 'gosukiwi/vim-atom-dark'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
+Plugin 'vim-scripts/AutoComplPop'
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Bundle 'lrvick/Conque-Shell'
 
@@ -32,7 +34,7 @@ filetype plugin indent on    " required
 set background=dark
 colorscheme atom-dark
 "
-
+let g:acp_autoselectFirstCompletion = 1
 :set nobackup
 
 :set number
@@ -47,11 +49,15 @@ endif
 "tab navigation"
 :nnoremap <C-S-tab> :bprevious<CR>:call NTLookup()<CR>
 :nnoremap <C-tab>   :bnext<CR>:call NTLookup()<CR>
-:nnoremap <C-t>     :enew<cr>:call NTLookup()<CR>
+:nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
+:vnoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>
+:vnoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>
+:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
 :inoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>i
 :inoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>i
-:inoremap <C-t>     <Esc>:enew<cr>:call NTLookup()<CR>i
+:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
 :nnoremap <C-w> :Bclose<CR>:call NTLookup()<cr>
+:vnoremap <C-w> <Esc>:Bclose<CR>:call NTLookup()<cr>
 :inoremap <C-w> :Bclose<CR>:call NTLookup()<cr>i
 
 "Clear search with return key" 
@@ -91,8 +97,8 @@ let g:ctrlp_working_path_mode = '0'
 
 "let g:ycm_global_ycm_extra_conf ='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
-
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+:imap <expr> <CR> pumvisible() ? "\<C-n><C-y><C-e>" : "\<CR>"
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
 
@@ -101,14 +107,12 @@ let g:ycm_add_preview_to_completeopt = 0
 
 "input maps
 :inoremap { {}<Esc>i
-:inoremap ( ()<Esc>i
-:inoremap [ []<Esc>i
 
 
 :imap <S-Return> <CR><CR><C-o>k<Tab>
 
 :let g:EclimCompletionMethod = 'omnifunc'
-    
+
 :inoremap  <Up>     <NOP>
 :inoremap  <Down>   <NOP>
 :inoremap  <Left>   <NOP>
@@ -156,29 +160,53 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 "let g:airline_powerline_fonts = 1
 
-noremap <Tab> <C-w>w
+"settings for moving bettwen buffer splits with ctrl+dkeys
+"noremap <Tab> <C-w>w
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-"set guifont=Liberation\ Mono\ for\ Powerline\ 10
 
 " returns true iff is NERDTree open/active
 function! IsNTOpen()        
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
 
+"tries to highlight the file in nerdtree
 function! NTLookup()
-    if &modifiable && IsNTOpen() && strlen(expand('%')) > 0 && !&diff
+if &modifiable && IsNTOpen() && strlen(expand('%')) > 0 && !&diff
         NERDTreeFind
         wincmd w
     endif
 endfunction
 
 "autocmd BufEnter * call NTLookup()
-"
 autocmd BufReadPre,FileReadPre * call NTLookup()
+
+"general stuff
+set encoding=utf-8
+set guioptions-=m 
+
+"indentation settings.
+noremap <Tab> >>
+noremap <S-Tab> <<
+vnoremap > >gv 
+vnoremap < <gv
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+
+
+set softtabstop=4
+
+:set textwidth=0
+:set wrapmargin=0
+
+"disable beeps
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+
 let g:airline_theme='tomorrow'
 set encoding=utf-8
 set guifont=Consolas:h10
@@ -187,7 +215,22 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 
+"keep cursor between buffers
+if v:version >= 700
+  au BufLeave * let b:winview = winsaveview()
+  au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+endif
 
-:vmap <Tab> >
-:vmap <S-Tab> <
-:map <S-Tab> < 
+" Put plugins and dictionaries in this dir (also on Windows)
+let vimDir = '$HOME/.vim'
+let &runtimepath.=','.vimDir
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+    let myUndoDir = expand(vimDir . '/undodir')
+    " Create dirs
+    call system('mkdir ' . vimDir)
+    call system('mkdir ' . myUndoDir)
+    let &undodir = myUndoDir
+    set undofile
+endif
