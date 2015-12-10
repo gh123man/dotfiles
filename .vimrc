@@ -1,4 +1,3 @@
-
 "yes its the mswin config, I like some of what it does for gvim
 source $VIMRUNTIME/mswin.vim
 behave mswin
@@ -20,22 +19,21 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'szw/vim-tags'
-"Plugin 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 Plugin 'gosukiwi/vim-atom-dark'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
 Plugin 'StanAngeloff/php.vim'
+Plugin 'wellle/targets.vim'
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 """"""""""""" END Vundle Stuff
-
-"colorshceme settings
-set background=dark
-colorscheme atom-dark
+set shell=/bin/bash
+set lazyredraw
 
 "general settings
 :set nobackup
@@ -43,22 +41,34 @@ colorscheme atom-dark
 :set scrolloff=5
 :set guioptions-=T  "remove toolbar"
 if has("gui_running")
+    set background=dark
+    colorscheme atom-dark
     set lines=48 columns=115
     let g:airline_theme='tomorrow'
     let g:airline_powerline_fonts = 1
     set guifont=Liberation\ Mono\ for\ Powerline\ 10
+else 
+    let g:solarized_termcolors=256
+    colorscheme solarized
 endif
 :set ignorecase
+
+:set mouse=a
+
 
 
 "tab navigation"
 :nnoremap <C-S-tab> :bprevious<CR>:call NTLookup()<CR>
 :nnoremap <C-tab>   :bnext<CR>:call NTLookup()<CR>
 :nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
+:vnoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>
+:vnoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>
+:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
 :inoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>i
 :inoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>i
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
 :nnoremap <C-w> :Bclose<CR>:call NTLookup()<cr>
+:vnoremap <C-w> <Esc>:Bclose<CR>:call NTLookup()<cr>
 :inoremap <C-w> :Bclose<CR>:call NTLookup()<cr>i
 
 "unamp arrow keys
@@ -90,8 +100,8 @@ endif
 "remap ctrld and dd to behave better
 :inoremap <c-s> <c-o>:Update<CR><CR>
 :noremap dd "_dd
-:map <c-d> dd
-:imap <c-d> <Esc>ddi
+:noremap <c-d> dd
+:inoremap <c-d> <Esc>ddi
 
 
 """"""" CTRL+P settings
@@ -99,7 +109,7 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*/.git,*/.svn     " Linux/MacOSX
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*/.git,*/.svn,*.mp3,*.out,*.jpg,*.png,*.gif,*.bmp,*.m4a,*.mkv     " Linux/MacOSX
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 if executable('ag')
@@ -117,10 +127,15 @@ set completeopt-=preview
 
 "Hack so that with YCM, if you hit enter it slects the next item
 "and closes the menu
-:inoremap <expr> <CR> pumvisible() ? "\<lt>Down><C-y>" : "\<C-g>u\<CR>"
+
+":inoremap <expr> <CR> pumvisible() ? "\<Down><C-y>" : "\<C-g>u\<CR>"
+:imap <expr> <CR> pumvisible() ? "\<C-n><C-y><C-e>" : "\<CR>"
+
+":autocmd CursorMoved pumvisible() ? "\<C-n>" : ""
 
 :let g:ycm_add_preview_to_completeopt = 0
 :let g:EclimCompletionMethod = 'omnifunc'
+
 
 "refresh vimrc - sorta works?
 ":map <F5> :so $MYVIMRC<CR>
@@ -139,7 +154,7 @@ set cursorline
 set laststatus=2
 
 "Toggle nerd tree
-map <C-n> :NERDTreeToggle %<CR>
+map <C-n> :NERDTreeToggle<CR>
 
 "opens tag in a new tab (this needs to be fixed to use buffers instead"
 function! TagInNewTab()
@@ -183,7 +198,7 @@ endfunction
 
 "tries to highlight the file in nerdtree
 function! NTLookup()
-    if &modifiable && IsNTOpen() && strlen(expand('%')) > 0 && !&diff
+if &modifiable && IsNTOpen() && strlen(expand('%')) > 0 && !&diff
         NERDTreeFind
         wincmd w
     endif
@@ -196,8 +211,40 @@ autocmd BufReadPre,FileReadPre * call NTLookup()
 set encoding=utf-8
 set guioptions-=m 
 
-"indentation settings, still needs work
-:vmap <Tab> >
-:vmap <S-Tab> <
-:map <S-Tab> <<
+"indentation settings.
+noremap <Tab> >>
+noremap <S-Tab> <<
+vnoremap > >gv 
+vnoremap < <gv
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
 
+
+set softtabstop=4
+
+:set textwidth=0
+:set wrapmargin=0
+
+"disable beeps
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+"keep cursor between buffers
+if v:version >= 700
+  au BufLeave * let b:winview = winsaveview()
+  au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+endif
+
+" Put plugins and dictionaries in this dir (also on Windows)
+let vimDir = '$HOME/.vim'
+let &runtimepath.=','.vimDir
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+    let myUndoDir = expand(vimDir . '/undodir')
+    " Create dirs
+    call system('mkdir ' . vimDir)
+    call system('mkdir ' . myUndoDir)
+    let &undodir = myUndoDir
+    set undofile
+endif
