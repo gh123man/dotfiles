@@ -18,7 +18,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'szw/vim-tags'
+"Plugin 'szw/vim-tags'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 Plugin 'gosukiwi/vim-atom-dark'
@@ -26,6 +26,7 @@ Plugin 'gosukiwi/vim-atom-dark'
 Plugin 'bling/vim-airline'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'wellle/targets.vim'
+Plugin 'scrooloose/syntastic'
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " All of your Plugins must be added before the following line
@@ -61,11 +62,11 @@ endif
 :nnoremap <C-S-tab> :bprevious<CR>:call NTLookup()<CR>
 :nnoremap <C-tab>   :bnext<CR>:call NTLookup()<CR>
 :nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:vnoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>
-:vnoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>
+:vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
+:vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
 :vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:inoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>i
-:inoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>i
+:inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>i
+:inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>i
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
 :nnoremap <C-w> :Bclose<CR>:call NTLookup()<cr>
 :vnoremap <C-w> <Esc>:Bclose<CR>:call NTLookup()<cr>
@@ -134,7 +135,7 @@ set completeopt-=preview
 ":autocmd CursorMoved pumvisible() ? "\<C-n>" : ""
 
 :let g:ycm_add_preview_to_completeopt = 0
-:let g:EclimCompletionMethod = 'omnifunc'
+":let g:EclimCompletionMethod = 'omnifunc'
 
 
 "refresh vimrc - sorta works?
@@ -248,3 +249,21 @@ if has('persistent_undo')
     let &undodir = myUndoDir
     set undofile
 endif
+
+
+"syntactic stuff
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
+
+"disable semantic trigger for php. causes issues
+let g:ycm_filetype_specific_completion_to_disable = {
+        \ 'php': 1
+        \}
