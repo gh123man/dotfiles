@@ -59,8 +59,8 @@ endif
 
 
 "tab navigation"
-:nnoremap <C-S-tab> :bprevious<CR>:call NTLookup()<CR>
-:nnoremap <C-tab>   :bnext<CR>:call NTLookup()<CR>
+:nnoremap <C-S-tab> :set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
+:nnoremap <C-tab>   :set hidden<cr>:bnext<CR>:call NTLookup()<CR>
 :nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
 :vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
 :vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
