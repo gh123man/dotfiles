@@ -51,6 +51,7 @@ if has("gui_running")
 else 
     let g:solarized_termcolors=256
     colorscheme solarized
+    set background=dark
 endif
 :set ignorecase
 
