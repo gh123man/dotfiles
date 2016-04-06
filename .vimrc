@@ -24,6 +24,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'gosukiwi/vim-atom-dark'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'wellle/targets.vim'
 Plugin 'scrooloose/syntastic'
@@ -31,6 +32,7 @@ Plugin 'gregsexton/MatchTag'
 Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'vim-scripts/AutoComplPop'
 Plugin 'chrisbra/csv.vim'
+Plugin 'haya14busa/incsearch.vim'
 
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
@@ -61,7 +63,6 @@ endif
 :set ignorecase
 
 :set mouse=a
-
 
 
 "tab navigation"
@@ -262,9 +263,8 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 
-"disable semantic trigger for php. causes issues
-let g:ycm_filetype_specific_completion_to_disable = {
-        \ 'php': 1
-        \}
-
 let g:csv_autocmd_arrange = 1
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
