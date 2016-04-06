@@ -17,7 +17,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 "Plugin 'szw/vim-tags'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
@@ -27,6 +27,11 @@ Plugin 'bling/vim-airline'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'wellle/targets.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'gregsexton/MatchTag'
+Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'vim-scripts/AutoComplPop'
+Plugin 'chrisbra/csv.vim'
+
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " All of your Plugins must be added before the following line
@@ -60,18 +65,24 @@ endif
 
 
 "tab navigation"
-:nnoremap <C-S-tab> :set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
-:nnoremap <C-tab>   :set hidden<cr>:bnext<CR>:call NTLookup()<CR>
-:nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
+:nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
+:nnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
+:nnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
 :vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
 :vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
 :vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
 :inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>i
 :inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>i
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
-:nnoremap <C-w> :Bclose<CR>:call NTLookup()<cr>
-:vnoremap <C-w> <Esc>:Bclose<CR>:call NTLookup()<cr>
-:inoremap <C-w> :Bclose<CR>:call NTLookup()<cr>i
+:nnoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
+:vnoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
+:inoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>i
+
+"Close buffer w/out saving
+:nnoremap <c-s-w>   <Esc>:bw!<CR>
+:inoremap <c-s-w>   <Esc>:bw!<CR>
+:vnoremap <c-s-w>   <Esc>:bw!<CR>
+
 
 "unamp arrow keys
 :inoremap  <Up>     <NOP>
@@ -121,23 +132,10 @@ let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_working_path_mode = '0'
 """"" end CTRL+P setigns
 
-"""" YCM and omicomplete stuff
-let g:ycm_global_ycm_extra_conf ='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
-
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-set completeopt-=preview
-
-"Hack so that with YCM, if you hit enter it slects the next item
-"and closes the menu
-
-":inoremap <expr> <CR> pumvisible() ? "\<Down><C-y>" : "\<C-g>u\<CR>"
-:imap <expr> <CR> pumvisible() ? "\<C-n><C-y><C-e>" : "\<CR>"
-
-":autocmd CursorMoved pumvisible() ? "\<C-n>" : ""
-
-:let g:ycm_add_preview_to_completeopt = 0
-":let g:EclimCompletionMethod = 'omnifunc'
-
+"""" omicomplete stuff
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+:inoremap <expr> <tab> pumvisible() ? '<C-n>' : "<tab>"
+:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<tab>"
 
 "refresh vimrc - sorta works?
 ":map <F5> :so $MYVIMRC<CR>
@@ -268,3 +266,5 @@ let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 let g:ycm_filetype_specific_completion_to_disable = {
         \ 'php': 1
         \}
+
+let g:csv_autocmd_arrange = 1
