@@ -33,6 +33,12 @@ Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'vim-scripts/AutoComplPop'
 Plugin 'chrisbra/csv.vim'
 Plugin 'haya14busa/incsearch.vim'
+Plugin 'keith/swift.vim'
+Plugin 'mbbill/undotree'
+Plugin 'ajh17/spacegray.vim'
+Plugin 'rbgrouleff/bclose.vim'
+Plugin 'lrvick/Conque-Shell'
+
 
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
@@ -49,21 +55,23 @@ set lazyredraw
 :set scrolloff=5
 :set guioptions-=T  "remove toolbar"
 if has("gui_running")
-    set background=dark
     colorscheme atom-dark
-    set lines=48 columns=115
+    set lines=48 columns=130
     let g:airline_theme='tomorrow'
-    let g:airline_powerline_fonts = 1
-    set guifont=Liberation\ Mono\ for\ Powerline\ 10
+    "let g:airline_powerline_fonts = 1
+    "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 else 
-    let g:solarized_termcolors=256
-    colorscheme solarized
-    set background=dark
+    colorscheme spacegray
 endif
 :set ignorecase
 
 :set mouse=a
 
+"THIS DOES NOT APPEAR TO WORK
+"Close buffer w/out saving
+":nnoremap <C-S-w>   <Esc>:Bclose!<CR>
+":inoremap <C-S-w>   <Esc>:bw!<CR>
+":vnoremap <C-S-w>   <Esc>:bw!<CR>
 
 "tab navigation"
 :nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
@@ -77,13 +85,12 @@ endif
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
 :nnoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
 :vnoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
-:inoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>i
+":inoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>i conflicts with
+" delete word in insert mode
 
-"Close buffer w/out saving
-:nnoremap <c-s-w>   <Esc>:bw!<CR>
-:inoremap <c-s-w>   <Esc>:bw!<CR>
-:vnoremap <c-s-w>   <Esc>:bw!<CR>
-
+"line wrap navigation
+noremap k gk
+noremap j gj
 
 "unamp arrow keys
 :inoremap  <Up>     <NOP>
@@ -156,6 +163,10 @@ set laststatus=2
 
 "Toggle nerd tree
 map <C-n> :NERDTreeToggle<CR>
+
+autocmd FileType nerdtree noremap <buffer> <C-tab> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-S-tab> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-t> <nop>
 
 "opens tag in a new tab (this needs to be fixed to use buffers instead"
 function! TagInNewTab()
@@ -268,3 +279,14 @@ let g:csv_autocmd_arrange = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+
+set completeopt-=preview "should disable python previewstuff
+
+
+
