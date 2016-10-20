@@ -36,6 +36,9 @@ Plugin 'haya14busa/incsearch.vim'
 Plugin 'keith/swift.vim'
 Plugin 'mbbill/undotree'
 Plugin 'ajh17/spacegray.vim'
+Plugin 'rbgrouleff/bclose.vim'
+Plugin 'lrvick/Conque-Shell'
+
 
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
@@ -64,26 +67,30 @@ endif
 
 :set mouse=a
 
+"THIS DOES NOT APPEAR TO WORK
+"Close buffer w/out saving
+":nnoremap <C-S-w>   <Esc>:Bclose!<CR>
+":inoremap <C-S-w>   <Esc>:bw!<CR>
+":vnoremap <C-S-w>   <Esc>:bw!<CR>
 
 "tab navigation"
-:nnoremap <D-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
-:nnoremap <D-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
-:nnoremap <D-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:vnoremap <D-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
-:vnoremap <D-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
-:vnoremap <D-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:inoremap <D-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>i
-:inoremap <D-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>i
-:inoremap <D-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
-:nnoremap <D-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
-:vnoremap <D-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
-:inoremap <D-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>i
+:nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:nnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:nnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:nnoremap <C-w>     <Esc>:Bclose<CR>
+:vnoremap <C-w>     <Esc>:Bclose<CR>
+":inoremap <C-w>     <Esc>:Bclose<CR>
+" delete word in insert mode
 
-"Close buffer w/out saving
-:nnoremap <D-s-w>   <Esc>:bw!<CR>
-:inoremap <D-s-w>   <Esc>:bw!<CR>
-:vnoremap <D-s-w>   <Esc>:bw!<CR>
-
+"line wrap navigation
+noremap k gk
+noremap j gj
 
 "unamp arrow keys
 :inoremap  <Up>     <NOP>
@@ -112,14 +119,14 @@ endif
 :command! -bar -bang Q quit<bang>
 
 "remap ctrld and dd to behave better
-:inoremap <D-s> <D-o>:Update<CR><CR>
+:inoremap <c-s> <c-o>:Update<CR><CR>
 :noremap dd "_dd
-:noremap <D-d> dd
-:inoremap <D-d> <Esc>ddi
+:noremap <c-d> dd
+:inoremap <c-d> <Esc>ddi
 
 
 """"""" CTRL+P settings
-let g:ctrlp_map = '<D-p>'
+let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
 
@@ -134,9 +141,9 @@ let g:ctrlp_working_path_mode = '0'
 """"" end CTRL+P setigns
 
 """" omicomplete stuff
-:inoremap <expr> <CR> pumvisible() ? "\<D-y>" : "\<D-g>u\<CR>"
-:inoremap <expr> <tab> pumvisible() ? '<D-n>' : "<tab>"
-:inoremap <expr> <S-tab> pumvisible() ? '<D-p>' : "<tab>"
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+:inoremap <expr> <tab> pumvisible() ? '<C-n>' : "<tab>"
+:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<tab>"
 
 "refresh vimrc - sorta works?
 ":map <F5> :so $MYVIMRC<CR>
@@ -145,17 +152,21 @@ let g:ctrlp_working_path_mode = '0'
 :inoremap { {}<Esc>i
 
 "shift + enter moves (braces) to correct line and resets cursor between them
-:imap <S-Return> <CR><CR><D-o>k<Tab>
+:imap <S-Return> <CR><CR><C-o>k<Tab>
     
-":map     <D-N>       :!gvim &<CR><CR>
-":map     <D-W>       :confirm bdelete<CR>
+":map     <C-N>       :!gvim &<CR><CR>
+":map     <C-W>       :confirm bdelete<CR>
 
 "Cursor settings
 set cursorline
 set laststatus=2
 
 "Toggle nerd tree
-map <D-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+
+autocmd FileType nerdtree noremap <buffer> <C-tab> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-S-tab> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-t> <nop>
 
 "opens tag in a new tab (this needs to be fixed to use buffers instead"
 function! TagInNewTab()
@@ -168,7 +179,7 @@ function! TagInNewTab()
     execute 'tag ' . word
 endfunction
 
-nmap <D-LeftMouse>:call TagInNewTab()<CR>
+nmap <C-LeftMouse>:call TagInNewTab()<CR>
 
 "Toggle relline numbers
 map <F1> :set rnu!<CR>
@@ -185,11 +196,11 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 "settings for moving bettwen buffer splits with ctrl+dkeys
-"noremap <Tab> <D-w>w
-noremap <D-h> <D-w>h
-noremap <D-j> <D-w>j
-noremap <D-k> <D-w>k
-noremap <D-l> <D-w>l
+"noremap <Tab> <C-w>w
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
 
 
 " returns true iff is NERDTree open/active
@@ -274,3 +285,39 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+
+set completeopt-=preview "should disable python previewstuff
+
+function! TermSwitch()
+    if &l:filetype ==# 'conque_term'
+        startinsert!
+        AcpDisable
+    else
+        AcpEnable
+    endif 
+endfunction
+
+augroup MyConqueTerm
+  autocmd!
+  autocmd BufEnter * :call TermSwitch()
+augroup END
+
+function! StartTerm()
+    ConqueTerm fish
+    call TermSwitch()
+endfunction
+
+command Fish execute "call StartTerm()"
+
+let g:ConqueTerm_Color = 2 " not sure this really does anything
+
+" Set your terminal type. I strong recommend leaving this as vt100, 
+" however more features may be enabled with xterm.
+let g:ConqueTerm_TERM = 'vt100'
+
+" Set buffer syntax. Conque has highlighting for MySQL, but not much else.
+let g:ConqueTerm_Syntax = 'conque'
+
+" Continue updating shell when it's not the current, focused buffer
+let g:ConqueTerm_ReadUnfocused = 1
+let g:ConqueTerm_StartMessages = 0
