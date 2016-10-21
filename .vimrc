@@ -39,7 +39,6 @@ Plugin 'ajh17/spacegray.vim'
 Plugin 'rbgrouleff/bclose.vim'
 Plugin 'lrvick/Conque-Shell'
 
-
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " All of your Plugins must be added before the following line
@@ -55,38 +54,49 @@ set lazyredraw
 :set scrolloff=5
 :set guioptions-=T  "remove toolbar"
 if has("gui_running")
+    set background=dark
     colorscheme atom-dark
-    set lines=48 columns=130
+    set lines=48 columns=115
     let g:airline_theme='tomorrow'
-    "let g:airline_powerline_fonts = 1
-    "set guifont=Liberation\ Mono\ for\ Powerline\ 10
+    let g:airline_powerline_fonts = 1
+    set guifont=Liberation\ Mono\ for\ Powerline\ 8
+    set encoding=utf-8
+    set guioptions-=m 
 else 
+    let g:solarized_termcolors=256
+    colorscheme solarized
+    set background=dark
     colorscheme spacegray
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
 endif
 :set ignorecase
 
 :set mouse=a
 
-"THIS DOES NOT APPEAR TO WORK
-"Close buffer w/out saving
-":nnoremap <C-S-w>   <Esc>:Bclose!<CR>
-":inoremap <C-S-w>   <Esc>:bw!<CR>
-":vnoremap <C-S-w>   <Esc>:bw!<CR>
 
 "tab navigation"
-:nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
-:nnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
-:nnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>
-:vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>
-:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>:call NTLookup()<CR>i
-:inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>:call NTLookup()<CR>i
-:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
-:nnoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
-:vnoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>
-":inoremap <C-w>     <Esc>:Bclose<CR>:call NTLookup()<cr>i conflicts with
-" delete word in insert mode
+:nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:nnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:nnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:nnoremap <C-w>     <Esc>:Bclose<CR>
+:vnoremap <C-w>     <Esc>:Bclose<CR>
+:inoremap <C-w>     <Esc>:Bclose<CR>
+
+    
+" THIS DOES NOT APPEAR TO WORK
+"Close buffer w/out saving
+":nnoremap <c-s-w>   <Esc>:bw!<CR>
+":inoremap <c-s-w>   <Esc>:bw!<CR>
+":vnoremap <c-s-w>   <Esc>:bw!<CR>
 
 "line wrap navigation
 noremap k gk
@@ -143,7 +153,7 @@ let g:ctrlp_working_path_mode = '0'
 """" omicomplete stuff
 :inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 :inoremap <expr> <tab> pumvisible() ? '<C-n>' : "<tab>"
-:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<tab>"
+:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<C-d>"
 
 "refresh vimrc - sorta works?
 ":map <F5> :so $MYVIMRC<CR>
@@ -163,10 +173,6 @@ set laststatus=2
 
 "Toggle nerd tree
 map <C-n> :NERDTreeToggle<CR>
-
-autocmd FileType nerdtree noremap <buffer> <C-tab> <nop>
-autocmd FileType nerdtree noremap <buffer> <C-S-tab> <nop>
-autocmd FileType nerdtree noremap <buffer> <C-t> <nop>
 
 "opens tag in a new tab (this needs to be fixed to use buffers instead"
 function! TagInNewTab()
@@ -216,12 +222,12 @@ if &modifiable && IsNTOpen() && strlen(expand('%')) > 0 && !&diff
     endif
 endfunction
 
+autocmd FileType nerdtree noremap <buffer> <C-tab> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-S-tab> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-t> <nop>
+
 "autocmd BufEnter * call NTLookup()
 autocmd BufReadPre,FileReadPre * call NTLookup()
-
-"general stuff
-set encoding=utf-8
-set guioptions-=m 
 
 "indentation settings.
 noremap <Tab> >>
@@ -274,19 +280,49 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 
-let g:csv_autocmd_arrange = 1
+"let g:csv_autocmd_arrange = 1
 
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+"map /  <Plug>(incsearch-forward)
+"map ?  <Plug>(incsearch-backward)
+"map g/ <Plug>(incsearch-stay)
 
-
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+" Spelling
+"imap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+"set spell
+imap <c-l> <c-g>u<c-x><c-s>
 
 set completeopt-=preview "should disable python previewstuff
 
+function! TermSwitch()
+    if &l:filetype ==# 'conque_term'
+        startinsert!
+        AcpDisable
+    else
+        AcpEnable
+    endif 
+endfunction
 
+augroup MyConqueTerm
+  autocmd!
+  autocmd BufEnter * :call TermSwitch()
+augroup END
 
+function! StartTerm()
+    ConqueTerm fish
+    call TermSwitch()
+endfunction
+
+command Fish execute "call StartTerm()"
+
+let g:ConqueTerm_Color = 2 " not sure this really does anything
+
+" Set your terminal type. I strong recommend leaving this as vt100, 
+" however more features may be enabled with xterm.
+let g:ConqueTerm_TERM = 'vt100'
+
+" Set buffer syntax. Conque has highlighting for MySQL, but not much else.
+let g:ConqueTerm_Syntax = 'conque'
+
+" Continue updating shell when it's not the current, focused buffer
+let g:ConqueTerm_ReadUnfocused = 1
+let g:ConqueTerm_StartMessages = 0
