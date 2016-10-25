@@ -22,9 +22,15 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'gosukiwi/vim-atom-dark'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/AutoComplPop'
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Bundle 'lrvick/Conque-Shell'
+Plugin 'PProvost/vim-ps1'
+Plugin 'rbgrouleff/bclose.vim'
+Plugin 'keith/swift.vim'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'scrooloose/syntastic'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -47,18 +53,18 @@ endif
 
 
 "tab navigation"
-:nnoremap <C-S-tab> :bprevious<CR>:call NTLookup()<CR>
-:nnoremap <C-tab>   :bnext<CR>:call NTLookup()<CR>
-:nnoremap <C-t>     :set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:vnoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>
-:vnoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>
-:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>
-:inoremap <C-S-tab> <Esc>:bprevious<CR>:call NTLookup()<CR>i
-:inoremap <C-tab>   <Esc>:bnext<CR>:call NTLookup()<CR>i
-:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>:call NTLookup()<CR>i
-:nnoremap <C-w> :Bclose<CR>:call NTLookup()<cr>
-:vnoremap <C-w> <Esc>:Bclose<CR>:call NTLookup()<cr>
-:inoremap <C-w> :Bclose<CR>:call NTLookup()<cr>i
+:nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:nnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:nnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:vnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:vnoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:vnoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
+:inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
+:inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
+:nnoremap <C-w>     <Esc>:Bclose<CR>
+:vnoremap <C-w>     <Esc>:Bclose<CR>
+:inoremap <C-w>     <Esc>:Bclose<CR>
 
 "Clear search with return key" 
 :nnoremap <CR> :noh<CR><CR>
@@ -95,12 +101,13 @@ let g:ctrlp_clear_cache_on_exit = 0
 
 let g:ctrlp_working_path_mode = '0'
 
-"let g:ycm_global_ycm_extra_conf ='~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-:imap <expr> <CR> pumvisible() ? "\<C-n><C-y><C-e>" : "\<CR>"
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
+
+"""" omicomplete stuff
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+:inoremap <expr> <tab> pumvisible() ? '<C-n>' : "<tab>"
+:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<C-d>"
+
 
 "refresh vimrc - sorta works?
 ":map <F5> :so $MYVIMRC<CR>
@@ -233,4 +240,25 @@ if has('persistent_undo')
     call system('mkdir ' . myUndoDir)
     let &undodir = myUndoDir
     set undofile
-endif
+endif   
+
+"syntactic stuff
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
+
+
+"line wrap navigation
+noremap k gk
+noremap j gj
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
