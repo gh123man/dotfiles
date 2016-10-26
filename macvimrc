@@ -21,7 +21,7 @@ Plugin 'kien/ctrlp.vim'
 "Plugin 'szw/vim-tags'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
-Plugin 'gosukiwi/vim-atom-dark'
+Plugin 'gh123man/vim-atom-dark-modded-256'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -54,14 +54,13 @@ set lazyredraw
 :set number
 :set scrolloff=5
 :set guioptions-=T  "remove toolbar"
+
+colorscheme atom-dark
+let g:airline_theme='tomorrow'
 if has("gui_running")
-    colorscheme atom-dark
     set lines=48 columns=130
-    let g:airline_theme='tomorrow'
     "let g:airline_powerline_fonts = 1
     "set guifont=Liberation\ Mono\ for\ Powerline\ 10
-else 
-    colorscheme spacegray
 endif
 :set ignorecase
 
@@ -85,6 +84,12 @@ endif
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
 :nnoremap <C-w>     <Esc>:Bclose<CR>
 :vnoremap <C-w>     <Esc>:Bclose<CR>
+
+map gn :bn<cr>
+map gp :bp<cr>
+map gd :bd<cr>
+map gt :enew<cr>
+map gw :Bclose<cr>
 ":inoremap <C-w>     <Esc>:Bclose<CR>
 " delete word in insert mode
 
