@@ -21,7 +21,7 @@ Plugin 'kien/ctrlp.vim'
 "Plugin 'szw/vim-tags'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
-Plugin 'gosukiwi/vim-atom-dark'
+Plugin 'gh123man/vim-atom-dark-modded-256'
 "Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -52,21 +52,20 @@ set lazyredraw
 :set nobackup
 :set number
 :set scrolloff=5
-:set guioptions-=T  "remove toolbar"
+set t_Co=256
+colorscheme atom-dark
+let g:airline_theme='tomorrow'
+let g:airline_powerline_fonts = 1
+
 if has("gui_running")
     set background=dark
-    colorscheme atom-dark
+    set guioptions-=T  "remove toolbar"
     set lines=48 columns=115
-    let g:airline_theme='tomorrow'
-    let g:airline_powerline_fonts = 1
     set guifont=Liberation\ Mono\ for\ Powerline\ 8
     set encoding=utf-8
     set guioptions-=m 
 else 
     let g:solarized_termcolors=256
-    colorscheme solarized
-    set background=dark
-    colorscheme spacegray
     let g:airline_left_sep = ''
     let g:airline_left_alt_sep = ''
     let g:airline_right_sep = ''
@@ -91,6 +90,11 @@ endif
 :vnoremap <C-w>     <Esc>:Bclose<CR>
 :inoremap <C-w>     <Esc>:Bclose<CR>
 
+map gn :bn<cr>
+map gp :bp<cr>
+map gd :bd<cr>
+map gt :enew<cr>
+map gw :Bclose<cr>
     
 " THIS DOES NOT APPEAR TO WORK
 "Close buffer w/out saving
