@@ -1,8 +1,3 @@
-"yes its the mswin config, I like some of what it does for gvim
-source $VIMRUNTIME/mswin.vim
-behave mswin
-
-
 """"""""""" Vundle stuff
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -57,14 +52,22 @@ set lazyredraw
 
 colorscheme atom-dark
 let g:airline_theme='tomorrow'
+let g:airline_powerline_fonts = 1
 if has("gui_running")
     set lines=48 columns=130
-    "let g:airline_powerline_fonts = 1
-    "set guifont=Liberation\ Mono\ for\ Powerline\ 10
+    set guifont=Roboto\ Mono\ for\ Powerline 11
 endif
+
+if has("gui_macvim")
+    set transparency=10
+    set blurradius=100
+endif
+
+
 :set ignorecase
 
 :set mouse=a
+set backspace=indent,eol,start
 
 "THIS DOES NOT APPEAR TO WORK
 "Close buffer w/out saving
@@ -119,9 +122,14 @@ noremap j gj
 :set incsearch
 
 
+nnoremap ; :
+
 "special bindings"
 "quit with :Q"
-:command! -bar -bang Q quit<bang>
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
 
 "remap ctrld and dd to behave better
 :inoremap <c-s> <c-o>:Update<CR><CR>
@@ -286,11 +294,6 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-
 set completeopt-=preview "should disable python previewstuff
 
 function! TermSwitch()
@@ -318,7 +321,7 @@ let g:ConqueTerm_Color = 2 " not sure this really does anything
 
 " Set your terminal type. I strong recommend leaving this as vt100, 
 " however more features may be enabled with xterm.
-let g:ConqueTerm_TERM = 'vt100'
+let g:ConqueTerm_TERM = 'xterm-256'
 
 " Set buffer syntax. Conque has highlighting for MySQL, but not much else.
 let g:ConqueTerm_Syntax = 'conque'
@@ -326,3 +329,7 @@ let g:ConqueTerm_Syntax = 'conque'
 " Continue updating shell when it's not the current, focused buffer
 let g:ConqueTerm_ReadUnfocused = 1
 let g:ConqueTerm_StartMessages = 0
+
+" Remove split bar "|" chars
+set fillchars+=vert:\ 
+
