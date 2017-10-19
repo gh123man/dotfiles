@@ -17,4 +17,5 @@ alias cbv="cb -o"
 set fish_greeting "its ok to panic :)
 "
 
-#fish_vi_mode
+set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
+set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
