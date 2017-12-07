@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'VundleVim/Vundle.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
 Plug 'gh123man/vim-atom-dark-modded-256'
@@ -12,7 +11,6 @@ Plug 'vim-syntastic/syntastic'
 Plug 'gregsexton/MatchTag'
 Plug 'severin-lemaignan/vim-minimap'
 Plug 'vim-scripts/AutoComplPop'
-Plug 'chrisbra/csv.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'keith/swift.vim'
 Plug 'mbbill/undotree'
@@ -28,7 +26,6 @@ set lazyredraw
 "general settings
 set nobackup
 set number
-set scrolloff=5
 
 colorscheme atom-dark
 let g:airline_theme='tomorrow'
@@ -36,7 +33,7 @@ let g:airline_powerline_fonts = 1
 if has("gui_running")
     set guioptions-=T  "remove toolbar"
     set lines=48 columns=130
-    set guifont=Roboto\ Mono\ for\ Powerline 11
+    set guifont=Roboto\ Mono\ for\ Powerline:h11
 endif
 
 if has("gui_macvim")
@@ -113,10 +110,10 @@ nnoremap ; :
 
 "special bindings"
 "quit with :Q"
-:command WQ wq
-:command Wq wq
-:command W w
-:command Q q
+:command! WQ wq
+:command! Wq wq
+:command! W w
+:command! Q q
 
 "remap ctrld and dd to behave better
 :inoremap <c-s> <c-o>:Update<CR><CR>
@@ -128,7 +125,6 @@ nnoremap ; :
 """"""" CTRL+P settings
 
 nnoremap <c-p> :FZF<cr>
-nmap ; :Buffers<CR>
 
 let g:ackprg = 'ag --vimgrep'
 
@@ -148,7 +144,7 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-" Enable per-command history.
+" Enable per-gommand history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
@@ -257,10 +253,13 @@ set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 
 "keep cursor between buffers
-if v:version >= 700
-  au BufLeave * let b:winview = winsaveview()
-  au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
-endif
+"if v:version >= 700
+  
+"au BufLeave * let b:winview = winsaveview()
+  "au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+"
+"   
+"endif
 
 " Put plugins and dictionaries in this dir (also on Windows)
 let vimDir = '$HOME/.vim'
@@ -290,8 +289,6 @@ let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 let g:syntastic_swift_checkers = ['swiftpm']
 let g:syntastic_objc_checkers = ['clang']
 
-let g:csv_autocmd_arrange = 1
-
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -299,5 +296,6 @@ map g/ <Plug>(incsearch-stay)
 
 set completeopt-=preview "should disable python previewstuff
 
-" Remove split bar "|" chars
+
+" Remove split bar "|" chars 
 set fillchars+=vert:\ 
