@@ -2,75 +2,41 @@
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
+call plug#begin('~/.vim/plugged')
 
-""""""""""" Vundle stuff
-set nocompatible              " be iMproved, required
-filetype off                  " required
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/nerdtree'
+Plug 'gh123man/vim-atom-dark-modded-256'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'StanAngeloff/php.vim'
+Plug 'wellle/targets.vim'
+Plug 'scrooloose/syntastic'
+Plug 'gregsexton/MatchTag'
+Plug 'severin-lemaignan/vim-minimap'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'haya14busa/incsearch.vim'
+Plug 'keith/swift.vim'
+Plug 'mbbill/undotree'
+Plug 'ajh17/spacegray.vim'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-let path='~/vimfiles/bundle'
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#end()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'szw/vim-tags'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'scrooloose/nerdtree'
-Plugin 'gh123man/vim-atom-dark-modded-256'
-"Plugin 'flazz/vim-colorschemes'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'wellle/targets.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'gregsexton/MatchTag'
-Plugin 'severin-lemaignan/vim-minimap'
-Plugin 'vim-scripts/AutoComplPop'
-Plugin 'chrisbra/csv.vim'
-Plugin 'haya14busa/incsearch.vim'
-Plugin 'keith/swift.vim'
-Plugin 'mbbill/undotree'
-Plugin 'ajh17/spacegray.vim'
-Plugin 'rbgrouleff/bclose.vim'
-Plugin 'lrvick/Conque-Shell'
-
-"Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
 """"""""""""" END Vundle Stuff
-set shell=/bin/bash
 set lazyredraw
 
 "general settings
 :set nobackup
 :set number
-:set scrolloff=5
 set t_Co=256
 colorscheme atom-dark
 let g:airline_theme='tomorrow'
 let g:airline_powerline_fonts = 1
 
-if has("gui_running")
-    set background=dark
-    set guioptions-=T  "remove toolbar"
-    set lines=48 columns=115
-    set guifont=Liberation\ Mono\ for\ Powerline\ 8
-    set encoding=utf-8
-    set guioptions-=m 
-else 
-    let g:solarized_termcolors=256
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
-endif
+let g:solarized_termcolors=256
 :set ignorecase
 
 :set mouse=a
@@ -88,7 +54,6 @@ endif
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
 :nnoremap <C-w>     <Esc>:Bclose<CR>
 :vnoremap <C-w>     <Esc>:Bclose<CR>
-:inoremap <C-w>     <Esc>:Bclose<CR>
 
 map gn :bn<cr>
 map gp :bp<cr>
@@ -131,6 +96,10 @@ noremap j gj
 "special bindings"
 "quit with :Q"
 :command! -bar -bang Q quit<bang>
+:command! WQ wq
+:command! Wq wq
+:command! W w
+:command! Q q
 
 "remap ctrld and dd to behave better
 :inoremap <c-s> <c-o>:Update<CR><CR>
@@ -138,20 +107,35 @@ noremap j gj
 :noremap <c-d> dd
 :inoremap <c-d> <Esc>ddi
 
-
 """"""" CTRL+P settings
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_working_path_mode = 'ra'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*/.git,*/.svn,*.mp3,*.out,*.jpg,*.png,*.gif,*.bmp,*.m4a,*.mkv     " Linux/MacOSX
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_working_path_mode = '0'
+nnoremap <c-p> :FZF<cr>
+
+let g:ackprg = 'ag --vimgrep'
+let g:fzf_launcher = 'xterm -e bash -ic %s'
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 """"" end CTRL+P setigns
 
 """" omicomplete stuff
@@ -195,10 +179,6 @@ nmap <C-LeftMouse>:call TagInNewTab()<CR>
 map <F1> :set rnu!<CR>
 
 
-"kinda buggey so disabling
-"map <S-b> :ConqueTermSplit bash --rcfile ~/.vim-bashrc<CR><Esc>:resize 10<CR>i
-"let g:Conque"kinda bugget so disablingTerm_CloseOnEnd = 1
-
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 
@@ -211,6 +191,11 @@ noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
+
+nmap <leader>h :split<CR>
+nmap <leader>v :vsplit<CR>
+nmap <leader>q :q<CR>
+nmap <leader>bc :Bclose!<CR>
 
 
 " returns true iff is NERDTree open/active
@@ -251,12 +236,6 @@ set softtabstop=4
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 
-"keep cursor between buffers
-if v:version >= 700
-  au BufLeave * let b:winview = winsaveview()
-  au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
-endif
-
 " Put plugins and dictionaries in this dir (also on Windows)
 let vimDir = '$HOME/.vim'
 let &runtimepath.=','.vimDir
@@ -284,49 +263,11 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 
-"let g:csv_autocmd_arrange = 1
-
-"map /  <Plug>(incsearch-forward)
-"map ?  <Plug>(incsearch-backward)
-"map g/ <Plug>(incsearch-stay)
-
-" Spelling
-"imap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-"set spell
-imap <c-l> <c-g>u<c-x><c-s>
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 set completeopt-=preview "should disable python previewstuff
 
-function! TermSwitch()
-    if &l:filetype ==# 'conque_term'
-        startinsert!
-        AcpDisable
-    else
-        AcpEnable
-    endif 
-endfunction
-
-augroup MyConqueTerm
-  autocmd!
-  autocmd BufEnter * :call TermSwitch()
-augroup END
-
-function! StartTerm()
-    ConqueTerm fish
-    call TermSwitch()
-endfunction
-
-command Fish execute "call StartTerm()"
-
-let g:ConqueTerm_Color = 2 " not sure this really does anything
-
-" Set your terminal type. I strong recommend leaving this as vt100, 
-" however more features may be enabled with xterm.
-let g:ConqueTerm_TERM = 'vt100'
-
-" Set buffer syntax. Conque has highlighting for MySQL, but not much else.
-let g:ConqueTerm_Syntax = 'conque'
-
-" Continue updating shell when it's not the current, focused buffer
-let g:ConqueTerm_ReadUnfocused = 1
-let g:ConqueTerm_StartMessages = 0
+" Esc exit terminal mode
+:tnoremap <Esc> <C-\><C-n>
