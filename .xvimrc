@@ -1,0 +1,18 @@
+:noremap dd "_dd
+:noremap <C-d> dd
+:inoremap <C-d> <Esc>ddi
+
+"indentation settings.
+noremap <Tab> >>
+noremap <S-Tab> <<
+vnoremap > >gv 
+vnoremap < <gv
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+
+"search stuff
+:set hlsearch
+:set incsearch
+:nnoremap <CR> :noh<CR><CR>
+
+:set ignorecase
