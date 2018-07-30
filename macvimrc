@@ -15,8 +15,10 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'keith/swift.vim'
 Plug 'mbbill/undotree'
 Plug 'ajh17/spacegray.vim'
-Plug 'rbgrouleff/bclose.vim'
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+Plug 'rbgrouleff/bclose.vim' 
+Plug 'RRethy/vim-illuminate' 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
