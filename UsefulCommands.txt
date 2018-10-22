@@ -1,0 +1,4 @@
+
+// Recurisve find replace ( OSX style sed )
+find . -name "*.fileType" -print0 | xargs -0 sed -E -i "" "s/\/\/([[:space:]]*Logger\.)/\1/g"
+
