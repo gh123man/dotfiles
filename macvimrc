@@ -1,15 +1,11 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'altercation/vim-colors-solarized'
-Plug 'scrooloose/nerdtree'
 Plug 'gh123man/vim-atom-dark-modded-256'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'StanAngeloff/php.vim'
 Plug 'wellle/targets.vim'
 Plug 'vim-syntastic/syntastic'
-Plug 'gregsexton/MatchTag'
-Plug 'severin-lemaignan/vim-minimap'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'haya14busa/incsearch.vim'
 Plug 'keith/swift.vim'
@@ -19,6 +15,10 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'RRethy/vim-illuminate' 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ryanolsonx/vim-lsp-swift'
 
 call plug#end()
 
@@ -48,6 +48,9 @@ if $TERM_PROGRAM =~ "iTerm"
     let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
     let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 endif
+
+:set shell=/usr/local/bin/fish
+:tnoremap <Esc> <C-\><C-n>
 
 
 :set ignorecase
@@ -214,6 +217,7 @@ nmap <leader>h :split<CR>
 nmap <leader>v :vsplit<CR>
 nmap <leader>q :q<CR>
 nmap <leader>bc :Bclose!<CR>
+nmap <leader>d :bd!<cr>
 
 
 " returns true iff is NERDTree open/active
