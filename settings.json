@@ -1,0 +1,31 @@
+{
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+
+    
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+        "before": ["<C-d>"],
+        "after": ["d", "d"]
+        },
+        {
+        "before": ["<tab>"],
+        "after": [">", ">"]
+        }
+    ],
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["<C-d>"],
+            "after": ["<Esc>", "d", "d", "i"]
+        }
+    ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false,
+        "<C-x>": false,
+        "<C-c>": false,
+        "<C-v>": false
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always"
+}
