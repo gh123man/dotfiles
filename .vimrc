@@ -5,8 +5,6 @@ Plug 'gh123man/vim-atom-dark-modded-256'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
-Plug 'vim-syntastic/syntastic'
-Plug 'vim-scripts/AutoComplPop'
 Plug 'haya14busa/incsearch.vim'
 Plug 'keith/swift.vim'
 Plug 'mbbill/undotree'
@@ -21,7 +19,8 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
-"Plug 'ryanolsonx/vim-lsp-swift'
+Plug 'dense-analysis/ale'
+Plug 'tpope/vim-fugitive'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -29,7 +28,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1 
 
 call plug#end()
 
@@ -47,14 +46,8 @@ let g:airline_theme='tomorrow'
 let g:airline_powerline_fonts = 1
 if has("gui_running") && !has("nvim")
     set guioptions-=T  "remove toolbar"
-    set lines=48 columns=130
     set guifont=Roboto\ Mono\ for\ Powerline:h11
 endif
-
-if has("gui_macvim")
-    "set transparency=10
-    "set blurradius=1000
-endif 
 
 " Change cursor shape between insert and normal mode in iTerm2.app
 if $TERM_PROGRAM =~ "iTerm"
@@ -70,12 +63,6 @@ endif
 
 :set mouse=a
 set backspace=indent,eol,start
-
-"THIS DOES NOT APPEAR TO WORK
-"Close buffer w/out saving
-":nnoremap <C-S-w>   <Esc>:Bclose!<CR>
-":inoremap <C-S-w>   <Esc>:bw!<CR>
-":vnoremap <C-S-w>   <Esc>:bw!<CR>
 
 "tab navigation"
 :nnoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
@@ -95,8 +82,6 @@ map gp :bp<cr>
 map gd :bd<cr>
 map gt :enew<cr>
 map gw :Bclose<cr>
-":inoremap <C-w>     <Esc>:Bclose<CR>
-" delete word in insert mode
 
 "line wrap navigation
 noremap k gk
@@ -142,11 +127,11 @@ nnoremap ; :
 
 """"""" CTRL+P settings
 
-nnoremap <c-p> :FZF<cr>
+nnoremap <c-p> :Files<cr>
 set ttimeout
 set ttimeoutlen=0
 
-let g:ackprg = 'ag --vimgrep'
+"let g:ackprg = 'ag --vimgrep'
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -166,20 +151,7 @@ let g:fzf_colors =
 let g:fzf_layout = { 'down': '40%' }
 tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
 
-" Enable per-gommand history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-""""" end CTRL+P setigns
-
-"""" omicomplete stuff
-:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-:inoremap <expr> <tab> pumvisible() ? '<C-n>' : "<tab>"
-:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<tab>"
-
-"refresh vimrc - sorta works?
-":map <F5> :so $MYVIMRC<CR>
 
 "autocomplete braces
 :inoremap { {}<Esc>i
@@ -187,9 +159,6 @@ let g:fzf_history_dir = '~/.local/share/fzf-history'
 "shift + enter moves (braces) to correct line and resets cursor between them
 :imap <S-Return> <CR><CR><C-o>k<Tab>
     
-":map     <C-N>       :!gvim &<CR><CR>
-":map     <C-W>       :confirm bdelete<CR>
-
 "Cursor settings
 set cursorline
 set laststatus=2
@@ -237,12 +206,16 @@ nmap <leader>q :q<CR>
 nmap <leader>bc :Bclose!<CR>
 "nmap <leader>d :bd!<cr>
 nmap <leader>d :GoDef<cr>
-nmap <leader>f :Rg<cr>
+nmap // :Rg<cr>
 nmap <leader>rc :e ~/.vimrc<cr>
 
 " quick reload 
-nmap <leader>= :source ~/.vimrc<cr> 
+nmap <leader>= :source ~/.vimrc<cr>  
+nmap <leader>o :! code %<cr>   
 
+" Rg serach files but not names
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+    
 " returns the current selection
 function! Get_visual_selection()
     " Why is this not a built-in Vim script function?!
@@ -259,7 +232,7 @@ endfunction
 
 " finds all refernces under the cursor with FZF and RG
 function! Find_all_Ref()
-    :execute "normal! viw"
+    :execute "normal! viwv"
     :execute ':Rgf ' . Get_visual_selection()
 endfunction 
 
@@ -271,11 +244,10 @@ command! -bang -nargs=* Rgf
   \ <bang>0)
 
 
-nmap <leader>r :call Find_all_Ref() <CR>
+nmap <leader>f :call Find_all_Ref() <CR>
     
 " Format json
 nmap <leader>j :%!python -m json.tool<CR>
-
 
 " returns true iff is NERDTree open/active
 function! IsNTOpen()        
@@ -328,26 +300,10 @@ if has('persistent_undo')
     set undofile
 endif 
 
-"syntactic stuff
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
-let g:syntastic_swift_checkers = ['swiftpm']
-let g:syntastic_objc_checkers = ['clang']
-
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-
-set completeopt-=preview "should disable python previewstuff
 
 " Remove split bar "|" chars 
 set fillchars+=vert:\  
@@ -364,4 +320,27 @@ function! Work()
     :pwd 
 endfunction 
 
-:command Work :call Work() 
+:command Work :call Work()  
+
+" GO SYNTAX  
+let g:go_highlight_structs = 1 
+let g:go_highlight_methods = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_diagnostic_errors = 1
+let g:go_highlight_diagnostic_warnings = 1 
+
+
+"let g:go_fmt_command = "goimports"   
+let g:airline#extensions#ale#enabled = 1
