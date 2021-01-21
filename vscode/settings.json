@@ -1,0 +1,110 @@
+{
+    "go.buildTags": "static",
+    "go.toolsEnvVars": {
+        "CGO_CFLAGS_ALLOW": "-fno-builtin-memcmp",
+        "CGO_CXXFLAGS_ALLOW": "-fno-builtin-memcmp|-lpthread"
+    },
+    "go.useLanguageServer": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "go.formatTool": "goimports",
+
+    "java.configuration.runtimes": [
+        {
+          "name": "JavaSE-14",
+          "path": "/Library/Java/JavaVirtualMachines/adoptopenjdk-14.jdk",
+          "default": true
+        },
+      ],
+      "cSpell.userWords": [
+        "Conditionf",
+        "Dogstatsd",
+        "Emptyf",
+        "Envvars",
+        "Existsf",
+        "GODEBUG",
+        "GOGC",
+        "Matchf",
+        "stretchr"
+      ],
+      "debug.onTaskErrors": "abort",
+      "diffEditor.ignoreTrimWhitespace": false,
+      "window.zoomLevel": 0,
+      "githubIssues.queries": [
+
+        {
+          "label": "My Issues",
+          "query": "default"
+        },
+        {
+          "label": "Created Issues",
+          "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        }
+      ],
+      "githubPullRequests.queries": [
+        {
+          "label": "Me",
+          "query": "is:open author:@me "
+        },
+
+        {
+          "label": "Team",
+          "query": "is:open is:pr label:team/agent-core -author:@me "
+        },
+        // {
+        //   "label": "Waiting For My Review",
+        //   "query": "is:open review-requested:${user}"
+        // },
+        // {
+        //   "label": "Assigned To Me",
+        //   "query": "is:open assignee:${user}"
+        // },
+        // {
+        //   "label": "Created By Me",
+        //   "query": "is:open author:${user}"
+        // }
+      ],
+      "diffEditor.renderSideBySide": false, 
+
+      "workbench.editor.focusRecentEditorAfterClose": false,
+
+    // vim 
+
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+        "before": ["<C-d>"],
+        "after": ["d", "d"]
+        },
+        {
+        "before": ["<tab>"],
+        "after": [">", ">"]
+        },
+        {
+        "before": ["<S-tab>"],
+        "after": ["<", "<"]
+        }
+    ],
+    // "vim.visualModeKeyBindingsNonRecursive": [
+    //   {
+    //   "before": ["<S-tab>"],
+    //   "after": ["<", "g", "v"]
+    //   } 
+    // ],
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["<C-d>"],
+            "after": ["<Esc>", "d", "d", "i"]
+        }
+    ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        //"<C-f>": false,
+          "<C-x>": false,
+        "<C-c>": false,
+        "<C-v>": false,
+        // "<C-tab>": false,
+        // "<C-S-tab>": false,
+    },
+}
