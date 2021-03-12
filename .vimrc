@@ -21,14 +21,16 @@ Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'dense-analysis/ale'
 Plug 'tpope/vim-fugitive'
+Plug 'vimwiki/vimwiki'
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-let g:deoplete#enable_at_startup = 1 
+" FIXME
+"let g:deoplete#enable_at_startup = 1 
 
 call plug#end()
 
@@ -74,8 +76,8 @@ set backspace=indent,eol,start
 :inoremap <C-S-tab> <Esc>:set hidden<cr>:bprevious<CR>
 :inoremap <C-tab>   <Esc>:set hidden<cr>:bnext<CR>
 :inoremap <C-t>     <Esc>:set hidden<cr>:enew<cr>
-":nnoremap <C-w>     <Esc>:Bclose<CR>
-":vnoremap <C-w>     <Esc>:Bclose<CR>
+:nnoremap <C-w>     <Esc>:Bclose<CR>
+:vnoremap <C-w>     <Esc>:Bclose<CR>
 
 map gn :bn<cr>
 map gp :bp<cr>
@@ -213,6 +215,8 @@ nmap <leader>rc :e ~/.vimrc<cr>
 nmap <leader>= :source ~/.vimrc<cr>  
 nmap <leader>o :! code %<cr>   
 
+nmap <leader>da :put =strftime(\"%c\")<cr><s-a><cr>
+
 " Rg serach files but not names
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
     
@@ -344,3 +348,4 @@ let g:go_highlight_diagnostic_warnings = 1
 
 "let g:go_fmt_command = "goimports"   
 let g:airline#extensions#ale#enabled = 1
+
