@@ -1,0 +1,3 @@
+#!/bin/bash 
+id=$(docksearch)
+docker kill $id 

@@ -1,0 +1,3 @@
+#!/bin/bash 
+git restore --staged $(git diff --name-only --cached | fzf -m --header "Shift-Tab to multiselect" --preview "git diff --staged --color=always {}")
+git status

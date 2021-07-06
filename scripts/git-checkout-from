@@ -1,0 +1,7 @@
+#!/bin/bash 
+set -e
+branch=$(git --no-pager branch -vv | fzf +m | awk '{print $1}') 
+files=$(git ls-files | fzf -m)
+git checkout $branch -- $files
+git status
+

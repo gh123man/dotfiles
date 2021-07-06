@@ -1,0 +1,5 @@
+#!/bin/bash 
+files=$(git ls-files --modified | fzf -m)
+git checkout HEAD -- $files
+git status
+
