@@ -16,12 +16,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'fatih/vim-go'", { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'dense-analysis/ale'
-Plug 'tpope/vim-fugitive'
 Plug 'vimwiki/vimwiki'
+Plug 'vim-syntastic/syntastic'
+Plug 'vim-scripts/AutoComplPop'
 if has('nvim')
   "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -173,19 +174,6 @@ autocmd FileType nerdtree noremap <buffer> <C-tab> <nop>
 autocmd FileType nerdtree noremap <buffer> <C-S-tab> <nop>
 autocmd FileType nerdtree noremap <buffer> <C-t> <nop> 
 
-"opens tag in a new tab (this needs to be fixed to use buffers instead"
-function! TagInNewTab()
-    let word = expand("<cword>")
-    redir => tagsfiles
-    silent execute 'set tags'
-    redir END
-    tabe
-    execute 'setlocal' . strpart(tagsfiles, 2)
-    execute 'tag ' . word
-endfunction
-
-nmap <C-LeftMouse>:call TagInNewTab()<CR>
-
 "Toggle relline numbers
 map <F1> :set rnu!<CR>
 
@@ -214,6 +202,7 @@ nmap <leader>rc :e ~/.vimrc<cr>
 " quick reload 
 nmap <leader>= :source ~/.vimrc<cr>  
 nmap <leader>o :! code %<cr>   
+
 
 nmap <leader>da :put =strftime(\"%c\")<cr><s-a><cr>
 
@@ -345,7 +334,17 @@ let g:go_highlight_variable_assignments = 1
 let g:go_highlight_diagnostic_errors = 1
 let g:go_highlight_diagnostic_warnings = 1 
 
-
 "let g:go_fmt_command = "goimports"   
 let g:airline#extensions#ale#enabled = 1
 
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+augroup end 
+
+"""" omicomplete stuff
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+:inoremap <expr> <tab> pumvisible() ? '<C-n>' : "<tab>"
+:inoremap <expr> <S-tab> pumvisible() ? '<C-p>' : "<tab>" 
