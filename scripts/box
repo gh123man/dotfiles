@@ -1,0 +1,11 @@
+#!/bin/bash 
+
+hostFolder=$(pwd)
+
+if [ -n "$1" ]; then
+    id=$(docker run -d --name $1 -v $hostFolder:/host -v /var/lib/docker/containers:/var/lib/docker/containers:ro -v /var/run/docker.sock:/var/run/docker.sock:ro deb_box)
+else
+    id=$(docker run -d -v $hostFolder:/host -v /var/lib/docker/containers:/var/lib/docker/containers:ro -v /var/run/docker.sock:/var/run/docker.sock:ro deb_box)
+fi
+
+docker exec -it $id bash
