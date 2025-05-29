@@ -1,0 +1,133 @@
+{
+    "editor.detectIndentation": false,
+    "editor.minimap.showSlider": "always",
+    "go.buildTags": "static",
+    "go.toolsEnvVars": {
+        "CGO_CFLAGS_ALLOW": "-fno-builtin-memcmp",
+        "CGO_CXXFLAGS_ALLOW": "-fno-builtin-memcmp|-lpthread"
+    },
+    "go.useLanguageServer": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "go.formatTool": "goimports",
+    "cSpell.userWords": [
+        "dateit",
+        "Dogstatsd",
+        "Emptyf",
+        "Envvars",
+        "Existsf",
+        "GODEBUG",
+        "GOGC",
+        "Matchf",
+        "stretchr"
+    ],
+    "debug.onTaskErrors": "abort",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        }
+    ],
+    "githubPullRequests.queries": [
+        {
+            "label": "Me",
+            "query": "is:open author:@me "
+        },
+        {
+            "label": "Team",
+            "query": "is:open is:pr label:team/agent-core -author:@me "
+        }
+    ],
+    "diffEditor.renderSideBySide": false,
+    "workbench.editor.focusRecentEditorAfterClose": false,
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-d>"
+            ],
+            "after": [
+                "d",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<tab>"
+            ],
+            "after": [
+                ">",
+                ">"
+            ]
+        },
+        {
+            "before": [
+                "<S-tab>"
+            ],
+            "after": [
+                "<",
+                "<"
+            ]
+        }
+    ],
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "<C-d>"
+            ],
+            "after": [
+                "<Esc>",
+                "d",
+                "d",
+                "i"
+            ]
+        }
+    ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-x>": false,
+        "<C-c>": false,
+        "<C-v>": false
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "[vue]": {
+        "editor.defaultFormatter": "octref.vetur"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "go.autocompleteUnimportedPackages": true,
+    "vue-format.pug-beautify": {
+        "fill_tab": true
+    },
+    "vue-format.break_attr_limit": 100,
+    "vue-format.js-beautify": {
+        "indent_size": "editor.tabSize",
+        "indent_char": "    ",
+        "indent_with_tabs": false,
+        "brace-style": "collapse",
+        "space_after_anon_function": true,
+        "css": {},
+        "js": {},
+        "html": {
+            "force_format": [
+                "template"
+            ]
+        }
+    },
+    "python.analysis.autoImportCompletions": true,
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "workbench.colorTheme": "Default Dark Modern",
+    "window.commandCenter": true,
+    "chat.editor.lineHeight": 1,
+    "editor.minimap.enabled": true,
+    "workbench.activityBar.orientation": "vertical",
+}
